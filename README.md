@@ -3,14 +3,15 @@ Dork scanner and exploiter
 
 This tool scans different search engines for a dork and return URL's.
 
-[This tool is under development phase] 
+[This tool is under development phase some features might not work] 
 
 # Requirements
-1. python3
+1. Linux
+2. Python 3 or above
 ```
 apt-get install python3
 ```
-2. kali linux
+
 
 # How to
 ```
