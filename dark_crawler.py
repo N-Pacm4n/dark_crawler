@@ -1,15 +1,26 @@
-from optparse import *
-import requests, re, sys
 from lib.colorama import *
-from bs4    import BeautifulSoup
-from functools import partial
-from  time         import time as timer
-from multiprocessing import Pool, freeze_support
-import textwrap
-import random
+import sys
 import os
-from random import randint
-from time import sleep
+
+try:
+    from optparse import *
+    import requests
+    from bs4    import BeautifulSoup
+    from functools import partial
+    from  time         import time as timer
+    from multiprocessing import Pool, freeze_support
+    import textwrap
+    import random
+    from random import randint
+    from time import sleep
+except ImportError:
+    import pip
+    print('Installing libraries\n')
+    pip.main(['install'],['optparse'],['requests'],['re'],['bs4'],['functools'],['time'],['multiprocessing'],['textwrap'],['random'])
+    print('\n\n\nPlease restart dark_crawler')
+    exit()
+
+
 
 class msg :
     def info(string) :
