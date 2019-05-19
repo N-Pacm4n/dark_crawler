@@ -11,7 +11,26 @@ import os
 from random import randint
 from time import sleep
 
+class msg :
+    def info(string) :
+        init()
+        print(Fore.GREEN + '[INFO] ' + string + Fore.RESET ,end='\n')
 
+    def warning(string) :
+        init()
+        print(Fore.YELLOW + '[WARNING] ' + string + Fore.RESET, end='\n')
+
+    def error(string) :
+        init()
+        print(Fore.RED + '[ERROR] ' + string + fore.RESET, end='\n')
+
+    def blue(string) :
+        init()
+        print(Fore.BLUE + string + Fore.RESET, end='\n')
+
+    def shutdown() :
+        init()
+        print(Back.RED + '\nSHUTTING DOWN DARK CRAWLER' + Back.RESET, end='\n')
 
 def random_ua() :
     dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -21,7 +40,7 @@ def random_ua() :
 
 def random_delay() :
     delay = randint(3,10)
-    print(color.GREEN + '[ INFO ] Delay Set to '+ str(delay) + ' Seconds' + color.END)
+    msg.info('Delay Set to '+ str(delay) + ' Seconds')
     return delay
 
 class google :
@@ -46,7 +65,7 @@ class google :
         search      = search
         pages       = pages
         processes   = int(processes)
-        print(color.GREEN + '[ INFO ] Using random delays to avoid googles detection' + color.END)
+        msg.info('Using random delays to avoid google\'s detection')
         make_request = partial( google.get_urls, search )
         pagelist     = [ str(x*10) for x in range( 0, int(pages) ) ]
         with Pool(processes) as p:
@@ -56,6 +75,7 @@ class google :
             result.extend(x)
         result = list( set( result ) )
         return result
+
 
 class bing :
     def get_urls(search_string, start):
@@ -67,6 +87,7 @@ class bing :
         r           = requests.get( url, params = payload, headers = my_headers )
         soup        = BeautifulSoup( r.text, 'html.parser' )
         h3tags      = soup.find_all( 'li', class_='b_algo' )
+
         for h3 in h3tags:
             try:
                 temp.append(h3.find('a').attrs['href'])
@@ -79,7 +100,7 @@ class bing :
         search      = search
         pages       = pages
         processes   = int(processes)
-        print(color.GREEN + '[ INFO ] Using random delays to avoid bings detection' + color.END)
+        msg.info('Using random delays to avoid bing\'s detection')
         make_request = partial( bing.get_urls, search )
         pagelist     = [ str(x*10) for x in range( 0, int(pages) ) ]
         with Pool(processes) as p:
@@ -112,7 +133,7 @@ class webcrawler :
         search      = search
         pages       = pages
         processes   = int(processes)
-        print(color.GREEN + '[ INFO ] Using random delays to avoid webcrawlers detection' + color.END)
+        msg.info('Using random delays to avoid webcrawler\'s detection')
         make_request = partial( webcrawler.get_urls, search )
         pagelist     = [ str(x) for x in range( 0, int(pages) ) ]
         with Pool(processes) as p:
@@ -146,7 +167,7 @@ class google_c :
         search      = search
         pages       = pages
         processes   = int(processes)
-        print(color.GREEN + '[ INFO ] Using random delays to avoid googles detection' + color.END)
+        msg.info('Using random delays to avoid google cache\'s detection')
         make_request = partial( google.get_urls, search )
         pagelist     = [ str(x*10) for x in range( 0, int(pages) ) ]
         with Pool(processes) as p:
@@ -158,16 +179,6 @@ class google_c :
         return result
 
 
-class color:
-    BLUE_BOLD = '\x1b[0;34;40m'
-    YELLOW_BOLD = '\x1b[1;33;40m'
-    GREEN = '\x1b[0;32;40m'
-    ERROR = '\x1b[0;31;40m'
-    FAIL = '\033[91m'
-    END = '\x1b[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
-
 def save_output(results, filename) :
     list = results
     with open(filename, 'w') as file:
@@ -176,13 +187,13 @@ def save_output(results, filename) :
     file.close()
 
 def banner() :
-    print(color.YELLOW_BOLD +"""
+    print(Fore.YELLOW + Style.BRIGHT +"""
  ╔╦╗┌─┐┬─┐┬┌─  ╔═╗┬─┐┌─┐┬ ┬┬  ┌─┐┬─┐
   ║║├─┤├┬┘├┴┐  ║  ├┬┘├─┤││││  ├┤ ├┬┘
  ═╩╝┴ ┴┴└─┴ ┴  ╚═╝┴└─┴ ┴└┴┘┴─┘└─┘┴└─
-    """+color.END)
-    print(color.GREEN +'Developed by Aman pachauri (paradox47.blogspot.com)'+color.END)
-    print(color.BLUE_BOLD+'\t\t\t\tversion [testing]\n\n'+color.END)
+    """+Fore.RESET)
+    print(Fore.GREEN + Style.NORMAL  +'Developed by Aman pachauri (paradox47.blogspot.com)'+Fore.RESET)
+    print(Fore.BLUE + Style.NORMAL+'\t\t\t\tversion [testing]\n\n'+ Fore.RESET)
 
 def main() :
     banner()
@@ -190,7 +201,7 @@ def main() :
     parser = OptionParser(usage=usage)
     parser.add_option("-d","--dork", type="string", dest="dork", metavar="DORK", action="store", help="\t\tString to search [eg:- index.php?id=]")
     parser.add_option("--engine", type="string", dest="engine",metavar="bing", action="store",default="all",help="\t\tSearch engine to use google,bing,all")
-    parser.add_option("--pages",type="int",dest="pages",metavar='5',action="store",default="5",help="\t\tNumber of pages to scan")
+    parser.add_option("--pages",type="int",dest="pages",metavar='2',action="store",default="2",help="\t\tNumber of pages to scan")
     parser.add_option("--site",type="string",dest="site",action="store",help="\t\tSpecify site for specific results")
     parser.add_option("--output",type="string",dest="ofile",metavar="file.txt",help='''\t\tSave ouput to file''')
     parser.add_option("--threads",type="int",dest="processes",metavar="2",default="2",help="\t\tNumber of parallel processes")
@@ -204,65 +215,85 @@ def main() :
         pages = options.pages
         processes = options.processes
         file = options.ofile
-        print(color.GREEN + '[ INFO ] Starting Crawler' + color.END)
+        msg.info('Starting Crawler')
         sleep(1)
-        print(color.BLUE_BOLD + '[ ENGINE ] '+ engine + color.END)
+        msg.blue('[ENGINE] '+ engine)
         sleep(1)
-        print(color.YELLOW_BOLD + '[ WARNING ] Too much use of this tool can get your IP adress banned by google and you may get 0 or false results ' + color.END)
-        print(color.YELLOW_BOLD + '[ WARNING ] Please wait............' + color.END)
-        print(color.YELLOW_BOLD + '[ Aman Pachauri ] This tool might be Slow but stable ' + color.END)
+        msg.warning('Too much use of this tool can get your IP adress banned by google and you may get 0 or false results ')
+        msg.warning('Please wait............')
         start = timer()
         if engine == "google" :
             result = google.dork_scanner(search, pages, processes)
             if not result :
-                print(color.ERROR + '[ ERROR ] You searched google too much and got you\'re IP BANNED. we recommend you use different engine [--engine=] or search google using browser' + color.END)
+                msg.error('You searched google too much and got you\'re IP BANNED. we recommend you use different engine [--engine=] or search google using browser')
+                msg.shutdown()
             else :
                 for x in result :
-                    print(color.BLUE_BOLD +'[ LINK ] '+ x + color.END)
-                print(color.GREEN + '[ INFO ] Total Url Grabbed : '+ str(len(result)) + color.END)
-                print(color.GREEN + '[ INFO ] Total time taken : '+ str((timer() - start)) + color.END)
+                    print('[LINK] '+ x )
+                msg.info('Total Url Grabbed : '+ str(len(result)))
+                msg.info('Total time taken : '+ str((timer() - start)))
+                if options.ofile != None :
+                    save_output(result, file)
+                    msg.info(' Urls written to '+ file)
+                msg.shutdown()
         elif engine == "bing" :
             result = bing.dork_scanner(search, pages, processes)
             if not result :
-                print(color.ERROR + '[ ERROR ] You searched bing too much and got you\'re IP BANNED. we recommend you use different engine [--engine=] or search bing using browser' + color.END)
+                msg.error('You searched bing too much and got you\'re IP BANNED. we recommend you use different engine [--engine=] or search bing using browser')
+                msg.shutdown()
             else:
                 for x in result :
-                    print(color.BLUE_BOLD +'[ LINK ] '+ x + color.END)
-                print(color.GREEN + '[ INFO ] Total Url Grabbed : '+ str(len(result)) + color.END)
-                print(color.GREEN + '[ INFO ] Total time taken : '+ str((timer() - start)) + color.END)
+                    print('[LINK] '+ x )
+                msg.info('Total Url Grabbed : '+ str(len(result)))
+                msg.info('Total time taken : '+ str((timer() - start)))
+                if options.ofile != None :
+                    save_output(result, file)
+                    msg.info(' Urls written to '+ file)
+                msg.shutdown()
         elif engine == "all" :
             result_wc = webcrawler.dork_scanner(search,pages,processes)
             result_b = bing.dork_scanner(search, pages, processes)
             for x in result_wc :
-                print(color.BLUE_BOLD +'[ LINK ] '+ x + color.END)
+                print('[LINK] '+ x )
             for x in result_b :
-                print(color.BLUE_BOLD +'[ LINK ] '+ x + color.END)
-            print(color.GREEN + '[ INFO ] Total Url Grabbed : '+ str(len(result_b) + len(result_wc)) + color.END)
-            print(color.GREEN + '[ INFO ] Total time taken : '+ str((timer() - start)) + color.END)
+                print('[LINK] '+ x )
+            msg.info('Total Url Grabbed : '+ str(len(result_b) + len(result_wc)))
+            msg.info('Total time taken : '+ str((timer() - start)))
             if options.ofile != None :
                 save_output(result_wc, file)
                 save_output(result_b, file)
-                print(color.GREEN + '[ INFO ] Urls written to '+ file + color.END)
+                msg.info(' Urls written to '+ file)
+            msg.shutdown()
         elif engine == "google_cache" :
             result = google_c.dork_scanner(search, pages, processes)
             if not result :
-                print(color.ERROR + '[ ERROR ] You searched google too much and got you\'re IP BANNED. we recommend you use different engine [--engine=] or search google using browser' + color.END)
+                msg.error('You searched google too much and got you\'re IP BANNED. we recommend you use different engine [--engine=] or search google using browser')
             else:
                 for x in result :
                     print(color.BLUE_BOLD +'[ LINK ] '+ x + color.END)
-                print(color.GREEN + '[ INFO ] Total Url Grabbed : '+ str(len(result)) + color.END)
-                print(color.GREEN + '[ INFO ] Total time taken : '+ str((timer() - start)) + color.END)
+                msg.info('Total Url Grabbed : '+ str(len(result)))
+                msg.info('Total time taken : '+ str((timer() - start)))
+                if options.ofile != None :
+                    save_output(result, file)
+                    msg.info(' Urls written to '+ file)
+                msg.shutdown()
         elif engine == "webcrawler" :
             result = webcrawler.dork_scanner(search, pages, processes)
             if not result :
-                print(color.ERROR + '[ ERROR ] You searched webcrawler too much and got you\'re IP BANNED. we recommend you use different engine [--engine=] or search google using browser' + color.END)
+                msg.error('You searched webcrawler too much and got you\'re IP BANNED. we recommend you use different engine [--engine=] or search google using browser')
+                msg.shutdown()
             else:
                 for x in result :
-                    print(color.BLUE_BOLD +'[ LINK ] '+ x + color.END)
-                print(color.GREEN + '[ INFO ] Total Url Grabbed : '+ str(len(result)) + color.END)
-                print(color.GREEN + '[ INFO ] Total time taken : '+ str((timer() - start)) + color.END)
+                    print('[LINK] '+ x )
+                msg.info('Total Url Grabbed : '+ str(len(result)))
+                msg.info('Total time taken : '+ str((timer() - start)))
+                if options.ofile != None :
+                    save_output(result, file)
+                    msg.info(' Urls written to '+ file)
+                msg.shutdown()
         else :
-            print(color.ERROR + "\n[ ERROR ] Invalid Engine" + color.END)
+            msg.error("\nInvalid Engine")
+            msg.shutodwn()
     else :
         parser.print_help()
 
