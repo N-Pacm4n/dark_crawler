@@ -204,7 +204,7 @@ def banner() :
  ═╩╝┴ ┴┴└─┴ ┴  ╚═╝┴└─┴ ┴└┴┘┴─┘└─┘┴└─
     """+Fore.RESET)
     print(Fore.GREEN + Style.NORMAL  +'Developed by Aman pachauri (paradox47.blogspot.com)'+Fore.RESET)
-    print(Fore.BLUE + Style.NORMAL+'\t\t\t\tversion [testing]\n\n'+ Fore.RESET)
+    print(Fore.BLUE + Style.NORMAL+'\t\t\t\tversion [beta-1.1]\n\n'+ Fore.RESET)
 
 def main() :
     banner()
