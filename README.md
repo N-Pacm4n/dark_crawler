@@ -1,5 +1,9 @@
 # dark_crawler
 #### *version 2.4-stable*
+# Devoloped By
+```
+Aman Pachauri ( paradox47.blogspot.com )
+```
 
 Dork scanner and exploiting framework
 
@@ -56,7 +60,3 @@ dark_crawler.py -h
 python3 dark_crawler.py -d inurl:index.php?id= --pages=5 --threads=7 --sqli
 ```
 
-# Devoloped By
-```
-Aman Pachauri ( paradox47.blogspot.com )
-```
