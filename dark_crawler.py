@@ -76,14 +76,16 @@ class sqli :
         vuln_list = []
         for x in list :
             try :
-                resp = urllib.request.urlopen(x+payload, timeout=10)
+                resp = urllib.request.urlopen(x+payload, timeout=10).read()
             except HTTPError as error:
+                resp = 'dark_cralwer'
                 if verbose == True :
                     msg.error(str(error)+' In '+x)
                     log_error(str(error)+' In '+x)
                 else :
                     log_error(str(error)+' In '+x)
             except URLError as error:
+                resp = 'dark_cralwer'
                 if isinstance(error.reason, socket.timeout):
                     if verbose == True :
                         msg.error('socket timed out - URL '+ x)
@@ -91,12 +93,14 @@ class sqli :
                     else :
                         log_error('socket timed out - URL '+ x)
             except socket.error as emsg:
+                resp = "dark_cralwer"
                 if verbose == True :
                     msg.error(emsg + ' In ' + x)
                     log_error(emsg + ' In ' + x)
                 else :
                     log_error(str(emsg) + ' In ' + x)
-            hits = str(resp.read())
+            finally :
+                hits = str(resp)
             if str("error in your SQL syntax") in hits:
                 print(x + " is vulnerable --> MySQL Classic")
                 vuln_list.append(x)
