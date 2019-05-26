@@ -24,24 +24,25 @@ import socket
 class msg :
     def info(string) :
         init()
-        print(Fore.GREEN + '[INFO] ' + string + Fore.RESET ,end='\n')
+        print(Fore.GREEN + Style.BRIGHT + '[INFO] ' + string + Fore.RESET ,end='\n')
 
     def warning(string) :
         init()
-        print(Fore.YELLOW + '[WARNING] ' + string + Fore.RESET, end='\n')
+        print(Fore.YELLOW+ Style.BRIGHT + '[WARNING] ' + string + Fore.RESET, end='\n')
 
     def error(string) :
         init()
-        print(Fore.RED + '[ERROR] ' + string + Fore.RESET, end='\n')
+        print(Fore.RED + Style.BRIGHT + '[ERROR] ' + string + Fore.RESET, end='\n')
 
     def blue(string) :
         init()
-        print(Fore.BLUE + string + Fore.RESET, end='\n')
+        print(Fore.BLUE + Style.BRIGHT + string + Fore.RESET, end='\n')
 
     def shutdown() :
         init()
-        print(Back.RED + '\nSHUTTING DOWN DARK CRAWLER' + Back.RESET , end='\n')
-
+        print(Back.RED + Style.BRIGHT + '\nSHUTTING DOWN DARK CRAWLER' + Back.RESET , end='\n')
+        sleep(2)
+        
 def random_ua() :
     dir_path = os.path.dirname(os.path.realpath(__file__))
     lines = open(dir_path +'/core/header').read().splitlines()
@@ -365,7 +366,7 @@ def save_output(results, filename) :
     file.close()
 
 def append_sqli(results) :
-    with open('sqli_confirmed', 'a') as file :
+    with open('sqli_confirmed', 'w') as file :
         for x in results :
             file.write(x+'\n')
     file.close()
@@ -375,13 +376,14 @@ def print_list(list) :
         print(x)
 
 def banner() :
-    print(Fore.YELLOW + Style.BRIGHT +"""
+    init()
+    print(Fore.MAGENTA+ Style.BRIGHT +'''
  ╔╦╗┌─┐┬─┐┬┌─  ╔═╗┬─┐┌─┐┬ ┬┬  ┌─┐┬─┐
   ║║├─┤├┬┘├┴┐  ║  ├┬┘├─┤││││  ├┤ ├┬┘
  ═╩╝┴ ┴┴└─┴ ┴  ╚═╝┴└─┴ ┴└┴┘┴─┘└─┘┴└─
-    """+Fore.RESET)
-    print(Fore.GREEN + Style.NORMAL  +'Developed by Aman pachauri (paradox47.blogspot.com)'+Fore.RESET)
-    print(Fore.BLUE + Style.NORMAL+'\t\t\t\tversion [2.4-stable]\n\n'+ Fore.RESET)
+    '''+Fore.RESET)
+    print(Fore.GREEN+ Style.BRIGHT +'Developed by Aman pachauri (paradox47.blogspot.com)'+Fore.RESET, end='\n')
+    print(Fore.BLUE+ Style.BRIGHT +'\t\t\t\tversion [2.4-stable]\n\n'+ Fore.RESET, end='\n')
 
 def main() :
     banner()
