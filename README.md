@@ -2,7 +2,7 @@
 #### *version 2.4-stable*
 # Devoloped By
 ```
-Aman Pachauri ( paradox47.blogspot.com )
+Aman Pachauri 
 ```
 
 Dork scanner and exploiting framework
